@@ -1,0 +1,7 @@
+               //---- mycode below--
+				$datacollection_arr = array();
+                //$datacollection_arr[] = $customer->getId();
+                Mage::dispatchEvent('custom_event', array('data_key' => $data_value, 'datacollection_key' => $datacollection_arr));
+               //-----mycode above
+			   
+			   
