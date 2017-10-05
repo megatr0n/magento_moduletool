@@ -1,0 +1,30 @@
+
+            <!-- The code of the event we want to observe -->
+            <event_name>
+
+                <!-- Defining an observer for this event -->
+                <observers>
+
+                    <!--
+                        Unique identifier within the
+                        checkout_onepage_controller_success_action node.
+                        By convention, we write the module's
+                        name in lowercase.
+                    -->
+                    <companyname_modulename>
+
+                        <!-- The model to be instantiated -->
+                        <class>companyname_modulename/observer</class>
+
+                        <!-- The method of the class to be called -->
+                        <method>action_method_name</method>
+
+                        <!-- The type of class to instantiate -->
+                        <type>singleton</type>
+
+                    </companyname_modulename>
+
+                </observers>
+
+            </event_name>
+

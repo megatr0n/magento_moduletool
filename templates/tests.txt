@@ -1,0 +1,89 @@
+
+	function xmlintegrity()
+	{
+	//test for the correct nodes and the correct counted number of those nodes.	
+	//echo "<br />testing xml integrity for file: ".$this->filelocation;
+	$str = file_get_contents($this->filelocation);
+ 	$this->nodecnt = substr_count($str,$this->node);
+	$this->assertEquals($this->nodecnt, $this->correctcount);
+	    if($this->nodecnt == $this->correctcount)
+		{
+		echo "\n This xml document has the correct nodes.";	
+		}
+	return $this->nodecnt;
+	}
+ 
+	function xmlvalidity()
+	{
+		//test if the xml structure is correct.
+	//echo "<br />testing xml validity for file: ".$this->filelocation;	
+    $dom = new DOMDocument;
+    $valid = false;
+	
+        if ($dom->Load($this->filelocation)) 
+		{
+		$valid = true;	
+          echo "This document is valid!\n";
+        } 
+	$this->assertTrue($valid);	
+	return $valid;
+	}
+
+	function fileintegrity()
+	{
+	//test for the correct substrings and the correct counted number of those substrings.	
+	//echo "<br />testing integrity for file: ".$this->filelocation;
+ 	$str = file_get_contents($this->filelocation);
+ 	$substrcnt = substr_count($str,$this->node);
+	$this->assertEquals($substrcnt, $this->correctcount);
+	    if($substrcnt == $this->correctcount)
+		{
+		//echo "\n This file has the correct substrings.";	
+		}
+	return $substrcnt;
+	}
+
+	function fileforDispatchEvent()
+	{
+	//test for the correct dispatchEvent code in the file.	
+	//echo "<br />testing integrity for file: ".$this->filelocation;
+ 	$str = file_get_contents($this->filelocation);
+ 	$substrcnt = stripos($str,$this->partial_dispatchEvent_code);
+	    if($substrcnt > 0)
+		{
+		$this->fnd = true;
+		//echo "\n This file has the correct partial dispatchEvent code.";	
+		}
+		else{
+		$this->fnd = false;
+		}
+		
+		
+	return $substrcnt;
+	}
+
+	function ifEssentialfilesExists()
+	{
+	//test if the required files exists
+	
+	//test observer file exists
+    $this->assertTrue(file_exists('output/local/'.$this->company_name.'/'.$this->modulename.'/Model/Observer.php'));
+	
+	//test if event method file exists
+    $this->assertTrue(file_exists('output/local/'.$this->company_name.'/'.$this->modulename.'/Model/'.$this->event_method.'.php'));
+	
+	//test config file exists
+    $this->assertTrue(file_exists('output/local/'.$this->company_name.'/'.$this->modulename.'/etc/config.xml'));	
+
+ 	//test module xml file exists
+    $this->assertTrue(file_exists('output/'.$this->company_name.'_'.$this->modulename.'.xml'));	
+    }
+	
+	//test event action script file result
+	function eventactionscriptfileresult()
+	{	
+	$rs = file_get_contents($this->theurl);
+	$this->assertEquals($rs, 4);
+	return $rs;
+	}
+
