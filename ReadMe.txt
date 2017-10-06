@@ -38,7 +38,7 @@ How to use?
 3) Fillout the details of your custom module and submit. A skeleton module is created immediately on submit and placed in the 
    "output" folder.
 
-4) Launch command prompt via batch file, usually this is done automatically.
+4) Launch command prompt via batch file, double click "runtest.bat".
 
 5) Test and ensure there are NO errors or failures. 
 
