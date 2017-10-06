@@ -389,6 +389,8 @@
 	    }	
 	
     file_put_contents($current_script_path.'runtest.bat',$txtstr);
+	sleep(3);
+	system('cmd /c "'.$current_script_path.'runtest.bat"');
 echo "<h2>module created in output dir.</h2>";	
     //amen	
     }

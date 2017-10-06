@@ -1,1 +1,0 @@
-<?php $output_result = 1+3; echo $output_result; ?>
