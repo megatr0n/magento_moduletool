@@ -1,0 +1,92 @@
+start phpunit "maintestfile"
+@echo off
+setlocal enabledelayedexpansion enableextensions
+set batfilepath=%~dp0
+
+
+	set configxmlfile="configxmlfile_here"
+	set observerfile="observerfile_here";
+	set modulexmlfile="modulexmlfile_here"
+	set eventmethodfile="eventmethodfile_here"
+
+	set configxmlfiledestination="configxmlfile_destination"
+	set observerfiledestination="observerfile_destination"
+	set modulexmlfiledestination="modulexmlfile_destination"
+	set eventmethodfiledestination="eventmethodfile_destination"
+	
+set modulename="modulename_here"	
+set magentodir="magentodir_here"	
+		
+cd %batfilepath%
+
+set cmd_to_execute=phpunit "main_tester.php"
+::parse the VER command 
+FOR /F "tokens=*" %%G IN ('%cmd_to_execute%') DO SET cmd_output=%%G
+:: show the result 
+echo %cmd_output%
+
+setLocal EnableDelayedExpansion
+set /a faultcount=0
+
+set haystack=%cmd_output%
+set needle=failures:
+if not "x!haystack:%needle%=!"=="x%haystack%" (
+	set /a faultcount=1
+	rem echo YES found "%needle%" faultcount is %faultcount%
+) else (
+    echo "%needle%" NOt found
+	
+)
+
+set haystack=%cmd_output%
+set needle=errors:
+    if not "x!haystack:%needle%=!"=="x%haystack%" (
+	set /a faultcount=faultcount+1
+    rem echo YES found "%needle%" faultcount is %faultcount%
+    ) else (
+    echo "%needle%" NOt found
+    )
+  
+ 
+set haystack=%cmd_output%
+set needle=error:
+    if not "x!haystack:%needle%=!"=="x%haystack%" (
+	set /a faultcount=faultcount+1
+    rem echo YES found "%needle%" faultcount is %faultcount%
+    ) else (
+    echo "%needle%" NOt found
+    )
+  
+
+    if %faultcount% GEQ 1 (
+       echo found fault %faultcount%, so let exit
+    ) else (
+	echo everything ok.
+    set /P userinput="Do you want to install this module into magento? (y/n)"
+    echo you entered !userinput!
+
+        if !userinput! == y (
+		rem setup directories
+
+        mkdir "%batfilepath%..\%magentodir%\app"
+        mkdir "%batfilepath%..\%magentodir%\app\code"
+        mkdir "%batfilepath%..\%magentodir%\app\code\local"
+        mkdir "%batfilepath%..\%magentodir%\app\code\local\%company_name%"
+        mkdir "%batfilepath%..\%magentodir%\app\code\local\%company_name%\%modulename%"
+        mkdir "%batfilepath%..\%magentodir%\app\code\local\%company_name%\%modulename%\etc\"
+        mkdir "%batfilepath%..\%magentodir%\app\code\local\%company_name%\%modulename%\Model\"
+        mkdir "%batfilepath%..\%magentodir%\app\etc"
+        mkdir "%batfilepath%..\%magentodir%\app\etc\modules\"
+		
+		rem here we run our installation procedures; copying files
+        copy %configxmlfile% %configxmlfiledestination% /y
+		copy %observerfile% %observerfiledestination% /y
+		copy %modulexmlfile% %modulexmlfiledestination% /y
+		copy %eventmethodfile% %eventmethodfiledestination% /y
+		
+		echo successfully installed module!
+		pause  
+        )
+
+    )
+
